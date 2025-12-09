@@ -394,11 +394,12 @@
             // Ocultar elementos que no deben aparecer en el PDF
             const btnVolver = document.getElementById('btnVolver');
             const btnDescargar = document.getElementById('btnDescargar');
+            const btnContainer = btnDescargar.parentElement;
             const container = document.querySelector('.container');
             const flowchart = document.querySelector('.flowchart');
             
             btnVolver.style.display = 'none';
-            btnDescargar.style.display = 'none';
+            btnContainer.style.display = 'none';
             
             // Reducir temporalmente el tamaño del contenedor y elementos para que quepan en A4
             const originalMaxWidth = container.style.maxWidth;
@@ -468,13 +469,13 @@
                 });
                 
                 btnVolver.style.display = 'block';
-                btnDescargar.innerHTML = '✅ PDF Descargado';
-                setTimeout(() => {
-                    btnDescargar.innerHTML = textoOriginal;
-                    btnDescargar.disabled = false;
-                }, 2000);
-                btnVolver.style.display = 'block';
-                btnDescargar.style.display = 'inline-block';.style.background = originalBackground;
+                btnContainer.style.display = 'block';
+            }).catch(() => {
+                // Restaurar en caso de error
+                container.style.maxWidth = originalMaxWidth;
+                container.style.padding = originalPadding;
+                container.style.border = originalBorder;
+                container.style.background = originalBackground;
                 document.body.style.fontSize = originalFontSize;
                 flowchart.style.gap = originalGap;
                 
@@ -485,9 +486,7 @@
                 });
                 
                 btnVolver.style.display = 'block';
-                btnDescargar.parentElement.style.display = 'block';
-                btnDescargar.innerHTML = textoOriginal;
-                btnDescargar.disabled = false;
+                btnContainer.style.display = 'block';
             });
         }
     </script>
