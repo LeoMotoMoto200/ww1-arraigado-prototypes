@@ -393,20 +393,24 @@
         function descargarPDF() {
             const elemento = document.querySelector('.container');
             const opciones = {
-                margin: 10,
+                margin: [5, 5, 5, 5],
                 filename: 'Anexo-A-Mapa-de-Flujo-WW1-ARRAIGADO.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
+                image: { type: 'jpeg', quality: 0.95 },
                 html2canvas: { 
-                    scale: 2,
+                    scale: 3,
                     useCORS: true,
                     logging: false,
-                    backgroundColor: '#f5f5dc'
+                    backgroundColor: '#f5f5dc',
+                    windowWidth: 1400,
+                    windowHeight: 3000
                 },
                 jsPDF: { 
                     unit: 'mm', 
-                    format: 'a4', 
-                    orientation: 'portrait' 
-                }
+                    format: 'a3', 
+                    orientation: 'portrait',
+                    compress: true
+                },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
             };
             
             // Mostrar mensaje de carga
