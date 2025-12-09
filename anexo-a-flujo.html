@@ -182,7 +182,7 @@
 </head>
 <body>
     <!-- Botón de regreso al inicio -->
-    <a href="index.html" style="position: fixed; top: 20px; left: 20px; z-index: 1000; background: linear-gradient(135deg, #4a7c4e 0%, #3a6c3e 100%); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.3)';">
+    <a href="index.html" id="btnVolver" style="position: fixed; top: 20px; left: 20px; z-index: 1000; background: linear-gradient(135deg, #4a7c4e 0%, #3a6c3e 100%); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.3)';">
         ← Volver al Inicio
     </a>
 
@@ -350,7 +350,7 @@
 
             <!-- Botón para descargar PDF -->
             <div style="text-align: center; margin-top: 40px; margin-bottom: 30px;">
-                <button onclick="descargarPDF()" style="background: linear-gradient(135deg, #4a7c4e 0%, #3a6c3e 100%); color: white; padding: 15px 40px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: all 0.3s ease; font-family: 'Special Elite', monospace;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.3)';">
+                <button id="btnDescargar" onclick="descargarPDF()" style="background: linear-gradient(135deg, #4a7c4e 0%, #3a6c3e 100%); color: white; padding: 15px 40px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: all 0.3s ease; font-family: 'Special Elite', monospace;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.3)';">
                     📥 Descargar Anexo A como PDF
                 </button>
             </div>
@@ -391,18 +391,24 @@
 
     <script>
         function descargarPDF() {
+            // Ocultar elementos que no deben aparecer en el PDF
+            const btnVolver = document.getElementById('btnVolver');
+            const btnDescargar = document.getElementById('btnDescargar');
+            btnVolver.style.display = 'none';
+            btnDescargar.parentElement.style.display = 'none';
+            
             const elemento = document.querySelector('.container');
             const opciones = {
-                margin: [5, 5, 5, 5],
+                margin: [8, 8, 8, 8],
                 filename: 'Anexo-A-Mapa-de-Flujo-WW1-ARRAIGADO.pdf',
-                image: { type: 'jpeg', quality: 0.95 },
+                image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
-                    scale: 3,
+                    scale: 2.5,
                     useCORS: true,
                     logging: false,
                     backgroundColor: '#f5f5dc',
-                    windowWidth: 1400,
-                    windowHeight: 3000
+                    scrollY: 0,
+                    scrollX: 0
                 },
                 jsPDF: { 
                     unit: 'mm', 
@@ -410,21 +416,29 @@
                     orientation: 'portrait',
                     compress: true
                 },
-                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                pagebreak: { mode: 'avoid-all' }
             };
             
             // Mostrar mensaje de carga
-            const btn = event.target;
-            const textoOriginal = btn.innerHTML;
-            btn.innerHTML = '⏳ Generando PDF...';
-            btn.disabled = true;
+            const textoOriginal = btnDescargar.innerHTML;
+            btnDescargar.innerHTML = '⏳ Generando PDF...';
+            btnDescargar.disabled = true;
+            btnDescargar.parentElement.style.display = 'block';
             
             html2pdf().set(opciones).from(elemento).save().then(() => {
-                btn.innerHTML = '✅ PDF Descargado';
+                // Restaurar elementos ocultos
+                btnVolver.style.display = 'block';
+                btnDescargar.innerHTML = '✅ PDF Descargado';
                 setTimeout(() => {
-                    btn.innerHTML = textoOriginal;
-                    btn.disabled = false;
+                    btnDescargar.innerHTML = textoOriginal;
+                    btnDescargar.disabled = false;
                 }, 2000);
+            }).catch(() => {
+                // Restaurar en caso de error
+                btnVolver.style.display = 'block';
+                btnDescargar.parentElement.style.display = 'block';
+                btnDescargar.innerHTML = textoOriginal;
+                btnDescargar.disabled = false;
             });
         }
     </script>
