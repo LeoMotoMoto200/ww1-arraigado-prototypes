@@ -398,7 +398,7 @@
             const flowchart = document.querySelector('.flowchart');
             
             btnVolver.style.display = 'none';
-            btnDescargar.parentElement.style.display = 'none';
+            btnDescargar.style.display = 'none';
             
             // Reducir temporalmente el tamaño del contenedor y elementos para que quepan en A4
             const originalMaxWidth = container.style.maxWidth;
@@ -451,12 +451,6 @@
                 }
             };
             
-            // Mostrar mensaje de carga
-            const textoOriginal = btnDescargar.innerHTML;
-            btnDescargar.innerHTML = '⏳ Generando PDF...';
-            btnDescargar.disabled = true;
-            btnDescargar.parentElement.style.display = 'block';
-            
             html2pdf().set(opciones).from(elemento).save().then(() => {
                 // Restaurar elementos y estilos originales
                 container.style.maxWidth = originalMaxWidth;
@@ -479,12 +473,8 @@
                     btnDescargar.innerHTML = textoOriginal;
                     btnDescargar.disabled = false;
                 }, 2000);
-            }).catch(() => {
-                // Restaurar en caso de error
-                container.style.maxWidth = originalMaxWidth;
-                container.style.padding = originalPadding;
-                container.style.border = originalBorder;
-                container.style.background = originalBackground;
+                btnVolver.style.display = 'block';
+                btnDescargar.style.display = 'inline-block';.style.background = originalBackground;
                 document.body.style.fontSize = originalFontSize;
                 flowchart.style.gap = originalGap;
                 
@@ -502,4 +492,5 @@
         }
     </script>
 </body>
-</html>
+</html>                btnVolver.style.display = 'block';
+                btnDescargar.style.display = 'inline-block';
