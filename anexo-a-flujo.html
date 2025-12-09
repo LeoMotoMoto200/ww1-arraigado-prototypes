@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anexo A: Mapa de Flujo del Jugador - WW1 ARRAIGADO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Special Elite', 'Courier New', monospace;
+            background: #f5f5dc;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border: 3px solid #333;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #4a4a3a;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 40px;
+            color: #8b7355;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .flow-node {
+            background: white;
+            border: 3px solid #4a4a3a;
+            padding: 20px 40px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 300px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .flow-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .flow-node.start {
+            background: linear-gradient(135deg, #4a7c4e 0%, #3a6c3e 100%);
+            color: white;
+            border-radius: 50px;
+        }
+
+        .flow-node.decision {
+            background: linear-gradient(135deg, #d4a017 0%, #b8a017 100%);
+            color: white;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            padding: 40px;
+            min-width: 350px;
+        }
+
+        .flow-node.process {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+
+        .flow-node.end {
+            background: linear-gradient(135deg, #8b3a3a 0%, #6b2a2a 100%);
+            color: white;
+            border-radius: 50px;
+        }
+
+        .flow-arrow {
+            font-size: 36px;
+            color: #8b7355;
+            margin: 10px 0;
+        }
+
+        .flow-split {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .flow-branch {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .branch-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #8b7355;
+            background: rgba(212,160,23,0.2);
+            padding: 5px 15px;
+            border-radius: 15px;
+            border: 2px solid #d4a017;
+        }
+
+        .node-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .node-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .node-desc {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .legend {
+            background: rgba(0,0,0,0.05);
+            border: 2px solid #8b7355;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .legend-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #4a4a3a;
+        }
+
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            border: 2px solid #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 ANEXO A: MAPA DE FLUJO DEL JUGADOR</h1>
+        <div class="subtitle">Diagrama de Flujo Completo - WW1 ARRAIGADO</div>
+
+        <div class="flowchart">
+            <!-- INICIO -->
+            <div class="flow-node start">
+                <div class="node-icon">🎮</div>
+                <div class="node-title">INICIO DEL JUEGO</div>
+                <div class="node-desc">El jugador ingresa por primera vez</div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <!-- DECISIÓN: ¿PRIMERA VEZ? -->
+            <div class="flow-node decision">
+                <div class="node-icon">❓</div>
+                <div class="node-title">¿PRIMERA VEZ?</div>
+                <div class="node-desc">Detección de nuevo usuario</div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <!-- BIFURCACIÓN -->
+            <div class="flow-split">
+                <!-- RAMA IZQUIERDA: SÍ -->
+                <div class="flow-branch">
+                    <div class="branch-label">SÍ (Nuevo)</div>
+                    <div class="flow-arrow">↓</div>
+                    
+                    <div class="flow-node process">
+                        <div class="node-icon">🎖️</div>
+                        <div class="node-title">TUTORIAL INTERACTIVO</div>
+                        <div class="node-desc">5 estaciones de entrenamiento (3-5 min)</div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-node process">
+                        <div class="node-icon">⚙️</div>
+                        <div class="node-title">CONFIGURACIÓN INICIAL</div>
+                        <div class="node-desc">Ajustes de accesibilidad recomendados</div>
+                    </div>
+                </div>
+
+                <!-- RAMA DERECHA: NO -->
+                <div class="flow-branch">
+                    <div class="branch-label">NO (Veterano)</div>
+                    <div class="flow-arrow">↓</div>
+                    
+                    <div class="flow-node process">
+                        <div class="node-icon">📋</div>
+                        <div class="node-title">MENÚ PRINCIPAL</div>
+                        <div class="node-desc">Acceso directo a todas las opciones</div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-node process">
+                        <div class="node-icon">🗺️</div>
+                        <div class="node-title">SELECCIÓN DE MAPA</div>
+                        <div class="node-desc">Elegir escenario de combate</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONVERGENCIA -->
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-node process">
+                <div class="node-icon">⚔️</div>
+                <div class="node-title">COMBATE ACTIVO</div>
+                <div class="node-desc">Gameplay principal con mecánicas completas</div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <!-- LOOP DE ACCIONES EN COMBATE -->
+            <div class="flow-node process" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
+                <div class="node-icon">🎯</div>
+                <div class="node-title">ACCIONES DEL JUGADOR</div>
+                <div class="node-desc">
+                    • Movimiento táctico<br>
+                    • Uso de cobertura<br>
+                    • Rueda de comandos (Q)<br>
+                    • Disparo y recarga
+                </div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <!-- DECISIÓN: ¿MUERTE? -->
+            <div class="flow-node decision">
+                <div class="node-icon">💀</div>
+                <div class="node-title">¿JUGADOR MUERE?</div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <!-- BIFURCACIÓN 2 -->
+            <div class="flow-split">
+                <!-- RAMA IZQUIERDA: SÍ MUERE -->
+                <div class="flow-branch">
+                    <div class="branch-label">SÍ (Muerte)</div>
+                    <div class="flow-arrow">↓</div>
+                    
+                    <div class="flow-node process" style="background: linear-gradient(135deg, #8b3a3a 0%, #6b2a2a 100%);">
+                        <div class="node-icon">📊</div>
+                        <div class="node-title">RESUMEN TÁCTICO</div>
+                        <div class="node-desc">
+                            • Vista cenital del combate<br>
+                            • Métricas de rendimiento<br>
+                            • Recomendaciones contextuales
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-node decision">
+                        <div class="node-icon">🔄</div>
+                        <div class="node-title">¿REINTENTAR?</div>
+                    </div>
+                </div>
+
+                <!-- RAMA DERECHA: NO MUERE -->
+                <div class="flow-branch">
+                    <div class="branch-label">NO (Sobrevive)</div>
+                    <div class="flow-arrow">↓</div>
+                    
+                    <div class="flow-node process" style="background: linear-gradient(135deg, #4a7c4e 0%, #3a6c3e 100%);">
+                        <div class="node-icon">🏆</div>
+                        <div class="node-title">VICTORIA</div>
+                        <div class="node-desc">Objetivo completado</div>
+                    </div>
+
+                    <div class="flow-arrow">↓</div>
+
+                    <div class="flow-node process">
+                        <div class="node-icon">📈</div>
+                        <div class="node-title">ESTADÍSTICAS FINALES</div>
+                        <div class="node-desc">Resumen de desempeño</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONVERGENCIA FINAL -->
+            <div class="flow-arrow">↓</div>
+
+            <div class="flow-node decision">
+                <div class="node-icon">🎮</div>
+                <div class="node-title">¿CONTINUAR JUGANDO?</div>
+            </div>
+
+            <div class="flow-arrow">↓</div>
+
+            <!-- FIN -->
+            <div class="flow-node end">
+                <div class="node-icon">🚪</div>
+                <div class="node-title">FIN DE SESIÓN</div>
+                <div class="node-desc">Guardar progreso y salir</div>
+            </div>
+        </div>
+
+        <!-- LEYENDA -->
+        <div class="legend">
+            <div class="legend-title">🔍 LEYENDA DE COLORES</div>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #4a7c4e 0%, #3a6c3e 100%);"></div>
+                    <span>Inicio/Victoria</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #d4a017 0%, #b8a017 100%);"></div>
+                    <span>Decisiones</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);"></div>
+                    <span>Procesos</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #8b3a3a 0%, #6b2a2a 100%);"></div>
+                    <span>Muerte/Fin</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);"></div>
+                    <span>Gameplay Core</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(74,124,78,0.1); border-radius: 10px;">
+            <strong>📌 NOTA:</strong> Este diagrama representa el flujo completo del jugador desde el inicio hasta el fin de sesión,
+            mostrando todos los puntos de interacción con las soluciones IHC propuestas (Tutorial, Rueda de Comandos, Resumen Táctico).
+        </div>
+    </div>
+</body>
+</html>

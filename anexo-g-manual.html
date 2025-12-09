@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anexo G: Manual de Usuario - WW1 ARRAIGADO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            background: #2a2a2a;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .notebook {
+            width: 800px;
+            background: 
+                linear-gradient(90deg, transparent 0%, transparent 40px, #f4e4c1 40px),
+                repeating-linear-gradient(
+                    180deg,
+                    transparent,
+                    transparent 30px,
+                    rgba(200, 180, 140, 0.3) 30px,
+                    rgba(200, 180, 140, 0.3) 31px
+                );
+            background-color: #f9f3e6;
+            box-shadow: 
+                0 10px 40px rgba(0,0,0,0.5),
+                inset 0 0 100px rgba(139,115,85,0.1);
+            border-left: 40px solid #8b7355;
+            position: relative;
+            padding: 60px 80px 60px 100px;
+            min-height: 800px;
+        }
+
+        /* Textura de papel */
+        .notebook::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.01) 2px, rgba(0,0,0,.01) 3px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.01) 2px, rgba(0,0,0,.01) 3px);
+            pointer-events: none;
+        }
+
+        /* Espiral de libreta */
+        .notebook::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent 0px,
+                    transparent 25px,
+                    rgba(0,0,0,0.3) 25px,
+                    rgba(0,0,0,0.3) 35px
+                );
+        }
+
+        .notebook-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .manual-title {
+            font-family: 'Special Elite', monospace;
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #2a2a2a;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-bottom: 3px solid #2a2a2a;
+            padding-bottom: 15px;
+        }
+
+        .manual-subtitle {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-family: 'Special Elite', monospace;
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #4a4a3a;
+            border-bottom: 2px solid #8b7355;
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-content {
+            font-size: 16px;
+            line-height: 30px;
+            color: #333;
+            text-align: justify;
+        }
+
+        .controls-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .controls-table td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .controls-table td:first-child {
+            font-weight: bold;
+            width: 120px;
+            background: rgba(139,115,85,0.1);
+            border-right: 2px solid #8b7355;
+        }
+
+        .tip-box {
+            background: rgba(212,160,23,0.15);
+            border-left: 4px solid #d4a017;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tip-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #8b7013;
+            font-size: 16px;
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+            margin: 15px 0;
+        }
+
+        .step-list li {
+            counter-increment: step-counter;
+            margin: 12px 0;
+            padding-left: 40px;
+            position: relative;
+            line-height: 30px;
+        }
+
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #4a4a3a;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .diagram {
+            background: white;
+            border: 2px solid #8b7355;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .key-visual {
+            display: inline-block;
+            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%);
+            border: 3px solid #333;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #8b7355;
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Manchas de tinta simuladas */
+        .ink-stain {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .stain-1 { top: 150px; right: 100px; }
+        .stain-2 { bottom: 200px; left: 120px; width: 20px; height: 20px; }
+    </style>
+</head>
+<body>
+    <div class="notebook">
+        <div class="ink-stain stain-1"></div>
+        <div class="ink-stain stain-2"></div>
+        
+        <div class="notebook-content">
+            <div class="manual-title">📖 MANUAL DE USUARIO</div>
+            <div class="manual-subtitle">WW1 ARRAIGADO - Guía de Supervivencia en las Trincheras</div>
+
+            <!-- SECCIÓN 1: INTRODUCCIÓN -->
+            <div class="section">
+                <div class="section-title">
+                    <span>🎖️</span>
+                    <span>1. BIENVENIDA AL FRENTE</span>
+                </div>
+                <div class="section-content">
+                    ¡Soldado! Bienvenido a WW1 ARRAIGADO, un shooter táctico ambientado en la Primera Guerra Mundial. 
+                    Este manual te enseñará todo lo necesario para sobrevivir en las trincheras y liderar a tu escuadrón 
+                    hacia la victoria. Presta atención, tu vida depende de ello.
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: CONTROLES BÁSICOS -->
+            <div class="section">
+                <div class="section-title">
+                    <span>⌨️</span>
+                    <span>2. CONTROLES BÁSICOS</span>
+                </div>
+                <div class="section-content">
+                    <table class="controls-table">
+                        <tr>
+                            <td>W A S D</td>
+                            <td>Movimiento (Adelante, Izquierda, Atrás, Derecha)</td>
+                        </tr>
+                        <tr>
+                            <td>SHIFT</td>
+                            <td>Correr (consume energía)</td>
+                        </tr>
+                        <tr>
+                            <td>C</td>
+                            <td>Agacharse / Usar cobertura</td>
+                        </tr>
+                        <tr>
+                            <td>MOUSE</td>
+                            <td>Apuntar la cámara</td>
+                        </tr>
+                        <tr>
+                            <td>CLIC IZQ</td>
+                            <td>Disparar</td>
+                        </tr>
+                        <tr>
+                            <td>R</td>
+                            <td>Recargar arma</td>
+                        </tr>
+                        <tr>
+                            <td>H</td>
+                            <td>Usar botiquín médico</td>
+                        </tr>
+                        <tr>
+                            <td>E</td>
+                            <td>Interactuar / Recoger objetos</td>
+                        </tr>
+                        <tr>
+                            <td>Q</td>
+                            <td>Abrir Rueda de Comandos</td>
+                        </tr>
+                        <tr>
+                            <td>ESC</td>
+                            <td>Menú de pausa</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: SISTEMA DE COMANDOS -->
+            <div class="section">
+                <div class="section-title">
+                    <span>⚙️</span>
+                    <span>3. RUEDA DE COMANDOS</span>
+                </div>
+                <div class="section-content">
+                    <p style="margin-bottom: 15px;">
+                        La Rueda de Comandos es tu herramienta principal para dirigir a tu escuadrón. 
+                        Actívala presionando <span class="key-visual">Q</span> y mueve el mouse hacia el comando deseado.
+                    </p>
+
+                    <div class="diagram">
+                        <div style="font-size: 14px; font-weight: bold; margin-bottom: 15px; color: #4a4a3a;">
+                            COMANDOS DISPONIBLES
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left;">
+                            <div>🎯 <strong>ATACAR</strong> - Asalto coordinado</div>
+                            <div>🛡️ <strong>DEFENDER</strong> - Mantener posición</div>
+                            <div>🏃 <strong>SEGUIR</strong> - Seguir al líder</div>
+                            <div>🚫 <strong>ALTO</strong> - Detener acciones</div>
+                            <div>💊 <strong>CURAR</strong> - Buscar botiquines</div>
+                            <div>🔫 <strong>CUBRIR</strong> - Fuego de supresión</div>
+                            <div>📍 <strong>MOVER</strong> - Reposicionar</div>
+                            <div>👁️ <strong>VIGILAR</strong> - Observar sector</div>
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <div class="tip-title">💡 CONSEJO TÁCTICO</div>
+                        El tiempo se ralentiza al 30% cuando abres la rueda. ¡Úsalo para planificar tu estrategia!
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 4: SUPERVIVENCIA -->
+            <div class="section">
+                <div class="section-title">
+                    <span>❤️</span>
+                    <span>4. MECÁNICAS DE SUPERVIVENCIA</span>
+                </div>
+                <div class="section-content">
+                    <ol class="step-list">
+                        <li><strong>Sistema de Cobertura:</strong> Agáchate cerca de sacos de arena o trincheras con <span class="key-visual">C</span>. 
+                            La cobertura reduce el daño recibido en un 80%.</li>
+                        <li><strong>Salud y Curación:</strong> Tu barra de salud está en la esquina inferior izquierda. 
+                            Usa botiquines con <span class="key-visual">H</span> cuando estés por debajo del 50%.</li>
+                        <li><strong>Munición:</strong> Recarga frecuentemente con <span class="key-visual">R</span>. 
+                            No esperes a quedarte sin balas en medio del combate.</li>
+                        <li><strong>Muerte y Resumen:</strong> Si caes, verás un resumen táctico que muestra cómo moriste 
+                            y consejos para mejorar. ¡Aprende de tus errores!</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 5: ACCESIBILIDAD -->
+            <div class="section">
+                <div class="section-title">
+                    <span>♿</span>
+                    <span>5. CONFIGURACIÓN DE ACCESIBILIDAD</span>
+                </div>
+                <div class="section-content">
+                    <p style="margin-bottom: 15px;">
+                        Presiona <span class="key-visual">ESC</span> → <strong>Configuración</strong> → <strong>Accesibilidad</strong> 
+                        para personalizar tu experiencia:
+                    </p>
+                    <ul style="list-style: none; padding-left: 20px;">
+                        <li style="margin: 8px 0;">✓ Filtros de daltonismo (Deuteranopia, Protanopia, Tritanopia)</li>
+                        <li style="margin: 8px 0;">✓ Modo de alto contraste</li>
+                        <li style="margin: 8px 0;">✓ Tamaño de texto del HUD (80%-150%)</li>
+                        <li style="margin: 8px 0;">✓ Subtítulos activados por defecto</li>
+                        <li style="margin: 8px 0;">✓ Reducción de movimiento (anti-mareo)</li>
+                        <li style="margin: 8px 0;">✓ Asistencia de apuntado configurable</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 6: CONSEJOS FINALES -->
+            <div class="section">
+                <div class="section-title">
+                    <span>🎯</span>
+                    <span>6. CONSEJOS DEL SARGENTO MILLER</span>
+                </div>
+                <div class="section-content">
+                    <div class="tip-box" style="background: rgba(74,124,78,0.15); border-color: #4a7c4e;">
+                        <div class="tip-title" style="color: #3a6c3e;">⚔️ CONSEJOS DE COMBATE</div>
+                        • <strong>Mantén la cabeza baja:</strong> La cobertura es tu mejor amiga.<br>
+                        • <strong>Comunica con tu escuadrón:</strong> Usa la rueda de comandos constantemente.<br>
+                        • <strong>Dispara en ráfagas cortas:</strong> La precisión es más importante que la velocidad.<br>
+                        • <strong>Observa el mapa táctico:</strong> Conoce la posición de tus aliados y enemigos.<br>
+                        • <strong>Aprende de tus muertes:</strong> Lee el resumen táctico para mejorar.
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-note">
+                "En las trincheras, la supervivencia depende de la preparación, la comunicación y la adaptabilidad."<br>
+                — Sargento Miller, Instructor de Entrenamiento<br><br>
+                <strong>WW1 ARRAIGADO</strong> | Manual de Usuario v1.0 | UNSA 2025-B
+            </div>
+        </div>
+    </div>
+</body>
+</html>
