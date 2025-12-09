@@ -7,6 +7,7 @@
     <meta name="keywords" content="mapa de flujo, player flow, diagrama, user journey, WW1, IHC, diseño de juegos, flowchart">
     <meta name="author" content="Grupo 3 - UNSA IHC 2025-B">
     <title>Anexo A: Mapa de Flujo del Jugador - WW1 ARRAIGADO</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
         
@@ -379,6 +380,49 @@
             <strong>📌 NOTA:</strong> Este diagrama representa el flujo completo del jugador desde el inicio hasta el fin de sesión,
             mostrando todos los puntos de interacción con las soluciones IHC propuestas (Tutorial, Rueda de Comandos, Resumen Táctico).
         </div>
+
+        <!-- Botón para descargar PDF -->
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="descargarPDF()" style="background: linear-gradient(135deg, #4a7c4e 0%, #3a6c3e 100%); color: white; padding: 15px 40px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: all 0.3s ease; font-family: 'Special Elite', monospace;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.5)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.3)';">
+                📥 Descargar Anexo A como PDF
+            </button>
+        </div>
     </div>
+
+    <script>
+        function descargarPDF() {
+            const elemento = document.querySelector('.container');
+            const opciones = {
+                margin: 10,
+                filename: 'Anexo-A-Mapa-de-Flujo-WW1-ARRAIGADO.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#f5f5dc'
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                }
+            };
+            
+            // Mostrar mensaje de carga
+            const btn = event.target;
+            const textoOriginal = btn.innerHTML;
+            btn.innerHTML = '⏳ Generando PDF...';
+            btn.disabled = true;
+            
+            html2pdf().set(opciones).from(elemento).save().then(() => {
+                btn.innerHTML = '✅ PDF Descargado';
+                setTimeout(() => {
+                    btn.innerHTML = textoOriginal;
+                    btn.disabled = false;
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>
