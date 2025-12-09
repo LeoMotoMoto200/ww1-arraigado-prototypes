@@ -391,17 +391,14 @@
 
     <script>
         function descargarPDF() {
-            // Ocultar elementos que no deben aparecer en el PDF
+            // Obtener referencias a elementos
             const btnVolver = document.getElementById('btnVolver');
             const btnDescargar = document.getElementById('btnDescargar');
             const btnContainer = btnDescargar.parentElement;
             const container = document.querySelector('.container');
             const flowchart = document.querySelector('.flowchart');
             
-            btnVolver.style.display = 'none';
-            btnContainer.style.display = 'none';
-            
-            // Reducir temporalmente el tamaño del contenedor y elementos para que quepan en A4
+            // Guardar estilos originales
             const originalMaxWidth = container.style.maxWidth;
             const originalPadding = container.style.padding;
             const originalBorder = container.style.border;
@@ -409,7 +406,11 @@
             const originalFontSize = document.body.style.fontSize;
             const originalGap = flowchart.style.gap;
             
-            // Quitar borde y ajustar estilos para PDF
+            // Ocultar botones
+            btnVolver.style.display = 'none';
+            btnContainer.style.display = 'none';
+            
+            // Ajustar estilos para PDF
             container.style.maxWidth = '750px';
             container.style.padding = '15px';
             container.style.border = 'none';
@@ -423,14 +424,13 @@
             flowNodes.forEach((node, index) => {
                 originalNodeStyles[index] = {
                     padding: node.style.padding,
-                    minWidth: node.style.minWidth,
-                    fontSize: node.style.fontSize
+                    minWidth: node.style.minWidth
                 };
                 node.style.padding = '12px 25px';
                 node.style.minWidth = '200px';
             });
             
-            const elemento = container;
+            // Configuración del PDF
             const opciones = {
                 margin: [10, 10, 10, 10],
                 filename: 'Anexo-A-Mapa-de-Flujo-WW1-ARRAIGADO.pdf',
@@ -452,8 +452,9 @@
                 }
             };
             
-            html2pdf().set(opciones).from(elemento).save().then(() => {
-                // Restaurar elementos y estilos originales
+            // Generar PDF
+            html2pdf().set(opciones).from(container).save().then(() => {
+                // Restaurar estilos
                 container.style.maxWidth = originalMaxWidth;
                 container.style.padding = originalPadding;
                 container.style.border = originalBorder;
@@ -461,16 +462,15 @@
                 document.body.style.fontSize = originalFontSize;
                 flowchart.style.gap = originalGap;
                 
-                // Restaurar nodos
                 flowNodes.forEach((node, index) => {
                     node.style.padding = originalNodeStyles[index].padding;
                     node.style.minWidth = originalNodeStyles[index].minWidth;
-                    node.style.fontSize = originalNodeStyles[index].fontSize;
                 });
                 
                 btnVolver.style.display = 'block';
                 btnContainer.style.display = 'block';
-            }).catch(() => {
+            }).catch((error) => {
+                console.error('Error al generar PDF:', error);
                 // Restaurar en caso de error
                 container.style.maxWidth = originalMaxWidth;
                 container.style.padding = originalPadding;
@@ -482,11 +482,11 @@
                 flowNodes.forEach((node, index) => {
                     node.style.padding = originalNodeStyles[index].padding;
                     node.style.minWidth = originalNodeStyles[index].minWidth;
-                    node.style.fontSize = originalNodeStyles[index].fontSize;
                 });
                 
                 btnVolver.style.display = 'block';
                 btnContainer.style.display = 'block';
+                alert('Error al generar el PDF. Por favor, intenta nuevamente.');
             });
         }
     </script>
