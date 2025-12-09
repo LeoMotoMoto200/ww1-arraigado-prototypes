@@ -403,11 +403,16 @@
             // Reducir temporalmente el tamaño del contenedor y elementos para que quepan en A4
             const originalMaxWidth = container.style.maxWidth;
             const originalPadding = container.style.padding;
+            const originalBorder = container.style.border;
+            const originalBackground = container.style.background;
             const originalFontSize = document.body.style.fontSize;
             const originalGap = flowchart.style.gap;
             
+            // Quitar borde y ajustar estilos para PDF
             container.style.maxWidth = '750px';
             container.style.padding = '15px';
+            container.style.border = 'none';
+            container.style.background = 'transparent';
             document.body.style.fontSize = '11px';
             flowchart.style.gap = '12px';
             
@@ -426,7 +431,7 @@
             
             const elemento = container;
             const opciones = {
-                margin: [3, 3, 3, 3],
+                margin: [10, 10, 10, 10],
                 filename: 'Anexo-A-Mapa-de-Flujo-WW1-ARRAIGADO.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
@@ -456,6 +461,8 @@
                 // Restaurar elementos y estilos originales
                 container.style.maxWidth = originalMaxWidth;
                 container.style.padding = originalPadding;
+                container.style.border = originalBorder;
+                container.style.background = originalBackground;
                 document.body.style.fontSize = originalFontSize;
                 flowchart.style.gap = originalGap;
                 
@@ -476,6 +483,8 @@
                 // Restaurar en caso de error
                 container.style.maxWidth = originalMaxWidth;
                 container.style.padding = originalPadding;
+                container.style.border = originalBorder;
+                container.style.background = originalBackground;
                 document.body.style.fontSize = originalFontSize;
                 flowchart.style.gap = originalGap;
                 
