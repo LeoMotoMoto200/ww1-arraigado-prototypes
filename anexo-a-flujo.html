@@ -394,25 +394,34 @@
             // Ocultar elementos que no deben aparecer en el PDF
             const btnVolver = document.getElementById('btnVolver');
             const btnDescargar = document.getElementById('btnDescargar');
+            const container = document.querySelector('.container');
+            
             btnVolver.style.display = 'none';
             btnDescargar.parentElement.style.display = 'none';
             
-            const elemento = document.querySelector('.container');
+            // Reducir temporalmente el tamaño del contenedor para que quepa en A4
+            const originalMaxWidth = container.style.maxWidth;
+            const originalPadding = container.style.padding;
+            container.style.maxWidth = '1000px';
+            container.style.padding = '25px';
+            
+            const elemento = container;
             const opciones = {
-                margin: [8, 8, 8, 8],
+                margin: [5, 5, 5, 5],
                 filename: 'Anexo-A-Mapa-de-Flujo-WW1-ARRAIGADO.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
-                    scale: 2.5,
+                    scale: 2,
                     useCORS: true,
                     logging: false,
                     backgroundColor: '#f5f5dc',
                     scrollY: 0,
-                    scrollX: 0
+                    scrollX: 0,
+                    width: 1000
                 },
                 jsPDF: { 
                     unit: 'mm', 
-                    format: 'a3', 
+                    format: 'a4', 
                     orientation: 'portrait',
                     compress: true
                 },
@@ -426,7 +435,9 @@
             btnDescargar.parentElement.style.display = 'block';
             
             html2pdf().set(opciones).from(elemento).save().then(() => {
-                // Restaurar elementos ocultos
+                // Restaurar elementos y estilos originales
+                container.style.maxWidth = originalMaxWidth;
+                container.style.padding = originalPadding;
                 btnVolver.style.display = 'block';
                 btnDescargar.innerHTML = '✅ PDF Descargado';
                 setTimeout(() => {
@@ -435,6 +446,8 @@
                 }, 2000);
             }).catch(() => {
                 // Restaurar en caso de error
+                container.style.maxWidth = originalMaxWidth;
+                container.style.padding = originalPadding;
                 btnVolver.style.display = 'block';
                 btnDescargar.parentElement.style.display = 'block';
                 btnDescargar.innerHTML = textoOriginal;
