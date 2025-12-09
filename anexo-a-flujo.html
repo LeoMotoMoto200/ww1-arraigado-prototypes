@@ -395,19 +395,38 @@
             const btnVolver = document.getElementById('btnVolver');
             const btnDescargar = document.getElementById('btnDescargar');
             const container = document.querySelector('.container');
+            const flowchart = document.querySelector('.flowchart');
             
             btnVolver.style.display = 'none';
             btnDescargar.parentElement.style.display = 'none';
             
-            // Reducir temporalmente el tamaño del contenedor para que quepa en A4
+            // Reducir temporalmente el tamaño del contenedor y elementos para que quepan en A4
             const originalMaxWidth = container.style.maxWidth;
             const originalPadding = container.style.padding;
-            container.style.maxWidth = '1000px';
-            container.style.padding = '25px';
+            const originalFontSize = document.body.style.fontSize;
+            const originalGap = flowchart.style.gap;
+            
+            container.style.maxWidth = '750px';
+            container.style.padding = '15px';
+            document.body.style.fontSize = '11px';
+            flowchart.style.gap = '12px';
+            
+            // Reducir tamaño de nodos
+            const flowNodes = document.querySelectorAll('.flow-node');
+            const originalNodeStyles = [];
+            flowNodes.forEach((node, index) => {
+                originalNodeStyles[index] = {
+                    padding: node.style.padding,
+                    minWidth: node.style.minWidth,
+                    fontSize: node.style.fontSize
+                };
+                node.style.padding = '12px 25px';
+                node.style.minWidth = '200px';
+            });
             
             const elemento = container;
             const opciones = {
-                margin: [5, 5, 5, 5],
+                margin: [3, 3, 3, 3],
                 filename: 'Anexo-A-Mapa-de-Flujo-WW1-ARRAIGADO.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
@@ -417,15 +436,14 @@
                     backgroundColor: '#f5f5dc',
                     scrollY: 0,
                     scrollX: 0,
-                    width: 1000
+                    width: 750
                 },
                 jsPDF: { 
                     unit: 'mm', 
                     format: 'a4', 
                     orientation: 'portrait',
                     compress: true
-                },
-                pagebreak: { mode: 'avoid-all' }
+                }
             };
             
             // Mostrar mensaje de carga
@@ -438,6 +456,16 @@
                 // Restaurar elementos y estilos originales
                 container.style.maxWidth = originalMaxWidth;
                 container.style.padding = originalPadding;
+                document.body.style.fontSize = originalFontSize;
+                flowchart.style.gap = originalGap;
+                
+                // Restaurar nodos
+                flowNodes.forEach((node, index) => {
+                    node.style.padding = originalNodeStyles[index].padding;
+                    node.style.minWidth = originalNodeStyles[index].minWidth;
+                    node.style.fontSize = originalNodeStyles[index].fontSize;
+                });
+                
                 btnVolver.style.display = 'block';
                 btnDescargar.innerHTML = '✅ PDF Descargado';
                 setTimeout(() => {
@@ -448,6 +476,15 @@
                 // Restaurar en caso de error
                 container.style.maxWidth = originalMaxWidth;
                 container.style.padding = originalPadding;
+                document.body.style.fontSize = originalFontSize;
+                flowchart.style.gap = originalGap;
+                
+                flowNodes.forEach((node, index) => {
+                    node.style.padding = originalNodeStyles[index].padding;
+                    node.style.minWidth = originalNodeStyles[index].minWidth;
+                    node.style.fontSize = originalNodeStyles[index].fontSize;
+                });
+                
                 btnVolver.style.display = 'block';
                 btnDescargar.parentElement.style.display = 'block';
                 btnDescargar.innerHTML = textoOriginal;
