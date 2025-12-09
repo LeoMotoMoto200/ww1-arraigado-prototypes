@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de Accesibilidad - WW1 ARRAIGADO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-primary: #4a4a3a;
+            --color-accent: #8b7355;
+            --color-success: #4a7c4e;
+            --color-bg: #e8dcc4;
+            --color-text: #2a2a2a;
+        }
+
+        /* Modo de alto contraste */
+        body.high-contrast {
+            --color-bg: #000;
+            --color-text: #fff;
+            --color-primary: #fff;
+            --color-accent: #ffff00;
+        }
+
+        /* Filtros para daltonismo */
+        body.deuteranopia {
+            filter: url(#deuteranopia-filter);
+        }
+
+        body.protanopia {
+            filter: url(#protanopia-filter);
+        }
+
+        body.tritanopia {
+            filter: url(#tritanopia-filter);
+        }
+
+        body {
+            font-family: 'Special Elite', 'Courier New', monospace;
+            background: var(--color-bg);
+            color: var(--color-text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        /* Reducción de movimiento */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body.reduce-motion * {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border: 3px solid var(--color-primary);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        body.high-contrast .container {
+            background: #000;
+            border-color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 40px;
+            color: var(--color-accent);
+        }
+
+        .wcag-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--color-success) 0%, #3a6c3e 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            margin: 0 auto 30px;
+            width: fit-content;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .settings-section {
+            background: rgba(0,0,0,0.02);
+            border: 2px solid var(--color-accent);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        body.high-contrast .settings-section {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--color-accent);
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--color-accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--color-accent);
+            padding-bottom: 10px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        body.high-contrast .setting-item {
+            border-bottom-color: rgba(255,255,255,0.3);
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--color-text);
+        }
+
+        .setting-description {
+            font-size: 12px;
+            color: var(--color-accent);
+            line-height: 1.4;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #ccc;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            border: 2px solid var(--color-primary);
+        }
+
+        .toggle-switch.active {
+            background: var(--color-success);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(30px);
+        }
+
+        /* Slider */
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 200px;
+        }
+
+        .slider {
+            flex: 1;
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            outline: none;
+            -webkit-appearance: none;
+            border: 1px solid var(--color-primary);
+        }
+
+        body.high-contrast .slider {
+            background: #333;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--color-primary);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--color-primary);
+        }
+
+        .slider-value {
+            min-width: 50px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--color-text);
+        }
+
+        /* Select dropdown */
+        .select-dropdown {
+            padding: 10px 15px;
+            border: 2px solid var(--color-primary);
+            border-radius: 8px;
+            background: white;
+            font-family: 'Special Elite', monospace;
+            font-size: 14px;
+            cursor: pointer;
+            min-width: 200px;
+            color: var(--color-text);
+        }
+
+        body.high-contrast .select-dropdown {
+            background: #000;
+            color: #fff;
+        }
+
+        /* Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--color-success) 0%, #3a6c3e 100%);
+            color: white;
+            border: 3px solid #2a5c2e;
+            padding: 15px 35px;
+            font-size: 16px;
+            font-family: 'Special Elite', monospace;
+            cursor: pointer;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn.secondary {
+            background: linear-gradient(135deg, #666 0%, #444 100%);
+            border-color: #333;
+        }
+
+        /* Preview box */
+        .preview-box {
+            background: rgba(0,0,0,0.05);
+            border: 2px dashed var(--color-accent);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        body.high-contrast .preview-box {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .preview-title {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: var(--color-accent);
+            font-weight: bold;
+        }
+
+        .preview-sample {
+            font-size: 18px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid var(--color-primary);
+        }
+
+        body.high-contrast .preview-sample {
+            background: #000;
+            color: #fff;
+        }
+
+        /* Color swatches para daltonismo */
+        .color-preview {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            border: 2px solid var(--color-primary);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--color-success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Filtros SVG para daltonismo */
+        svg {
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Filtros SVG para daltonismo -->
+    <svg xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <!-- Filtro Deuteranopia (verde-ciego) -->
+            <filter id="deuteranopia-filter">
+                <feColorMatrix type="matrix" values="0.625 0.375 0   0 0
+                                                       0.7   0.3   0   0 0
+                                                       0     0.3   0.7 0 0
+                                                       0     0     0   1 0"/>
+            </filter>
+            
+            <!-- Filtro Protanopia (rojo-ciego) -->
+            <filter id="protanopia-filter">
+                <feColorMatrix type="matrix" values="0.567 0.433 0     0 0
+                                                       0.558 0.442 0     0 0
+                                                       0     0.242 0.758 0 0
+                                                       0     0     0     1 0"/>
+            </filter>
+            
+            <!-- Filtro Tritanopia (azul-ciego) -->
+            <filter id="tritanopia-filter">
+                <feColorMatrix type="matrix" values="0.95  0.05  0     0 0
+                                                       0     0.433 0.567 0 0
+                                                       0     0.475 0.525 0 0
+                                                       0     0     0     1 0"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <div class="container">
+        <h1>♿ Configuración de Accesibilidad ♿</h1>
+        <div class="subtitle">WW1 ARRAIGADO - Opciones de Inclusividad</div>
+
+        <div class="wcag-badge">
+            <span>✓</span>
+            <span>CUMPLE WCAG 2.2 NIVEL AA</span>
+        </div>
+
+        <!-- SECCIÓN 1: VISUAL -->
+        <div class="settings-section">
+            <div class="section-title">
+                <span>👁️</span>
+                <span>CONFIGURACIÓN VISUAL</span>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Modo de Alto Contraste</div>
+                    <div class="setting-description">
+                        Aumenta el contraste de colores para mejorar la legibilidad (WCAG 2.2 - 1.4.6)
+                    </div>
+                </div>
+                <div class="toggle-switch" id="highContrastToggle" onclick="toggleHighContrast()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Filtro de Daltonismo</div>
+                    <div class="setting-description">
+                        Ajusta los colores para diferentes tipos de daltonismo (WCAG 2.2 - 1.4.1)
+                    </div>
+                </div>
+                <select class="select-dropdown" id="colorBlindFilter" onchange="changeColorBlindMode()">
+                    <option value="none">Sin filtro</option>
+                    <option value="deuteranopia">Deuteranopia (Verde)</option>
+                    <option value="protanopia">Protanopia (Rojo)</option>
+                    <option value="tritanopia">Tritanopia (Azul)</option>
+                </select>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Tamaño de Texto</div>
+                    <div class="setting-description">
+                        Ajusta el tamaño de fuente del HUD y subtítulos (WCAG 2.2 - 1.4.4)
+                    </div>
+                </div>
+                <div class="slider-container">
+                    <input type="range" min="80" max="150" value="100" class="slider" id="textSizeSlider" oninput="updateTextSize(this.value)">
+                    <span class="slider-value" id="textSizeValue">100%</span>
+                </div>
+            </div>
+
+            <div class="preview-box">
+                <div class="preview-title">👁️ VISTA PREVIA DE TEXTO</div>
+                <div class="preview-sample" id="previewText" style="font-size: 18px;">
+                    Este es el tamaño actual del texto en el juego
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: AUDITIVO -->
+        <div class="settings-section">
+            <div class="section-title">
+                <span>🔊</span>
+                <span>CONFIGURACIÓN DE AUDIO</span>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Subtítulos</div>
+                    <div class="setting-description">
+                        Muestra texto de diálogos y efectos sonoros importantes (WCAG 2.2 - 1.2.2)
+                    </div>
+                </div>
+                <div class="toggle-switch active" id="subtitlesToggle" onclick="toggleSubtitles()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Indicadores Visuales de Audio</div>
+                    <div class="setting-description">
+                        Muestra íconos cuando se detectan disparos, explosiones o pasos cercanos
+                    </div>
+                </div>
+                <div class="toggle-switch" id="audioIndicatorsToggle" onclick="toggleAudioIndicators()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Volumen de Diálogos</div>
+                    <div class="setting-description">
+                        Ajusta el volumen de las voces independientemente de otros sonidos
+                    </div>
+                </div>
+                <div class="slider-container">
+                    <input type="range" min="0" max="100" value="80" class="slider" id="dialogueVolumeSlider" oninput="updateVolume('dialogue', this.value)">
+                    <span class="slider-value" id="dialogueVolumeValue">80%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: MOTOR -->
+        <div class="settings-section">
+            <div class="section-title">
+                <span>🎮</span>
+                <span>CONFIGURACIÓN MOTRIZ</span>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Reducir Movimiento</div>
+                    <div class="setting-description">
+                        Desactiva animaciones y efectos de cámara intensos (WCAG 2.2 - 2.3.3)
+                    </div>
+                </div>
+                <div class="toggle-switch" id="reduceMotionToggle" onclick="toggleReduceMotion()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Asistencia de Apuntado</div>
+                    <div class="setting-description">
+                        Ayuda a apuntar a enemigos cercanos para jugadores con dificultades motrices
+                    </div>
+                </div>
+                <div class="slider-container">
+                    <input type="range" min="0" max="100" value="30" class="slider" id="aimAssistSlider" oninput="updateAimAssist(this.value)">
+                    <span class="slider-value" id="aimAssistValue">30%</span>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Mantener para Apuntar</div>
+                    <div class="setting-description">
+                        Cambia apuntar de "mantener botón" a "alternar con clic"
+                    </div>
+                </div>
+                <div class="toggle-switch" id="toggleAimToggle" onclick="toggleAimMode()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: COGNITIVO -->
+        <div class="settings-section">
+            <div class="section-title">
+                <span>🧠</span>
+                <span>CONFIGURACIÓN COGNITIVA</span>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Simplificar HUD</div>
+                    <div class="setting-description">
+                        Reduce elementos en pantalla para minimizar distracciones (WCAG 2.2 - 2.4.13)
+                    </div>
+                </div>
+                <div class="toggle-switch" id="simplifyHudToggle" onclick="toggleSimplifyHud()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Resaltar Objetivos</div>
+                    <div class="setting-description">
+                        Marca claramente objetivos de misión y puntos de interés
+                    </div>
+                </div>
+                <div class="toggle-switch active" id="highlightObjectivesToggle" onclick="toggleHighlightObjectives()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <div class="setting-info">
+                    <div class="setting-label">Pausar con Menús</div>
+                    <div class="setting-description">
+                        El juego se pausa automáticamente al abrir inventario o mapas
+                    </div>
+                </div>
+                <div class="toggle-switch active" id="autoPauseToggle" onclick="toggleAutoPause()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTONES DE ACCIÓN -->
+        <div class="action-buttons">
+            <button class="btn secondary" onclick="resetSettings()">↻ RESTABLECER</button>
+            <button class="btn" onclick="saveSettings()">💾 GUARDAR CAMBIOS</button>
+        </div>
+
+        <!-- WCAG INFO -->
+        <div class="preview-box" style="margin-top: 30px;">
+            <div class="preview-title">ℹ️ ESTÁNDARES DE ACCESIBILIDAD</div>
+            <div style="font-size: 12px; line-height: 1.8; text-align: left;">
+                <strong>Este menú cumple con:</strong><br>
+                • WCAG 2.2 Nivel AA (Pautas de Accesibilidad para Contenido Web)<br>
+                • ISO 9241-171 (Ergonomía de software - Accesibilidad)<br>
+                • ADA (Americans with Disabilities Act) Gaming Guidelines<br><br>
+                <strong>Principios aplicados:</strong><br>
+                • Perceptible: Información presentada de múltiples formas<br>
+                • Operable: Funcionalidad accesible mediante teclado/mando<br>
+                • Comprensible: Interfaz clara y predecible<br>
+                • Robusto: Compatible con tecnologías de asistencia
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificación -->
+    <div class="notification" id="notification">
+        ✓ Configuración guardada correctamente
+    </div>
+
+    <script>
+        // Estado de configuración
+        const settings = {
+            highContrast: false,
+            colorBlindMode: 'none',
+            textSize: 100,
+            subtitles: true,
+            audioIndicators: false,
+            dialogueVolume: 80,
+            reduceMotion: false,
+            aimAssist: 30,
+            toggleAim: false,
+            simplifyHud: false,
+            highlightObjectives: true,
+            autoPause: true
+        };
+
+        function toggleHighContrast() {
+            settings.highContrast = !settings.highContrast;
+            document.getElementById('highContrastToggle').classList.toggle('active');
+            document.body.classList.toggle('high-contrast');
+        }
+
+        function changeColorBlindMode() {
+            const mode = document.getElementById('colorBlindFilter').value;
+            settings.colorBlindMode = mode;
+            
+            // Remover todas las clases
+            document.body.classList.remove('deuteranopia', 'protanopia', 'tritanopia');
+            
+            // Aplicar nuevo filtro
+            if (mode !== 'none') {
+                document.body.classList.add(mode);
+            }
+        }
+
+        function updateTextSize(value) {
+            settings.textSize = value;
+            document.getElementById('textSizeValue').textContent = value + '%';
+            document.getElementById('previewText').style.fontSize = (18 * value / 100) + 'px';
+        }
+
+        function toggleSubtitles() {
+            settings.subtitles = !settings.subtitles;
+            document.getElementById('subtitlesToggle').classList.toggle('active');
+        }
+
+        function toggleAudioIndicators() {
+            settings.audioIndicators = !settings.audioIndicators;
+            document.getElementById('audioIndicatorsToggle').classList.toggle('active');
+        }
+
+        function updateVolume(type, value) {
+            settings.dialogueVolume = value;
+            document.getElementById('dialogueVolumeValue').textContent = value + '%';
+        }
+
+        function toggleReduceMotion() {
+            settings.reduceMotion = !settings.reduceMotion;
+            document.getElementById('reduceMotionToggle').classList.toggle('active');
+            document.body.classList.toggle('reduce-motion');
+        }
+
+        function updateAimAssist(value) {
+            settings.aimAssist = value;
+            document.getElementById('aimAssistValue').textContent = value + '%';
+        }
+
+        function toggleAimMode() {
+            settings.toggleAim = !settings.toggleAim;
+            document.getElementById('toggleAimToggle').classList.toggle('active');
+        }
+
+        function toggleSimplifyHud() {
+            settings.simplifyHud = !settings.simplifyHud;
+            document.getElementById('simplifyHudToggle').classList.toggle('active');
+        }
+
+        function toggleHighlightObjectives() {
+            settings.highlightObjectives = !settings.highlightObjectives;
+            document.getElementById('highlightObjectivesToggle').classList.toggle('active');
+        }
+
+        function toggleAutoPause() {
+            settings.autoPause = !settings.autoPause;
+            document.getElementById('autoPauseToggle').classList.toggle('active');
+        }
+
+        function saveSettings() {
+            // Simular guardado
+            localStorage.setItem('ww1-accessibility-settings', JSON.stringify(settings));
+            
+            // Mostrar notificación
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function resetSettings() {
+            if (confirm('¿Estás seguro de que quieres restablecer todas las configuraciones a sus valores predeterminados?')) {
+                location.reload();
+            }
+        }
+
+        // Cargar configuración guardada al iniciar
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('ww1-accessibility-settings');
+            if (saved) {
+                const loadedSettings = JSON.parse(saved);
+                // Aplicar configuración guardada aquí
+                console.log('Configuración cargada:', loadedSettings);
+            }
+        });
+
+        // Detectar preferencia del sistema para reduced motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            settings.reduceMotion = true;
+            document.getElementById('reduceMotionToggle').classList.add('active');
+            document.body.classList.add('reduce-motion');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LO-FI: Tutorial Interactivo - WW1 ARRAIGADO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #f5f5dc;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border: 3px solid #333;
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        .wireframe-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 2px dashed #999;
+            background: #fafafa;
+        }
+
+        .wireframe-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .sketch-box {
+            border: 2px solid #333;
+            padding: 20px;
+            margin: 15px 0;
+            background: white;
+            min-height: 150px;
+            position: relative;
+        }
+
+        .sketch-label {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #333;
+            color: white;
+            padding: 2px 8px;
+            font-size: 10px;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .placeholder-text {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            margin: 20px 0;
+        }
+
+        .annotation {
+            font-size: 12px;
+            color: #666;
+            margin: 10px 0;
+            padding-left: 20px;
+            border-left: 3px solid #999;
+        }
+
+        .flow-arrow {
+            text-align: center;
+            font-size: 24px;
+            margin: 10px 0;
+            color: #666;
+        }
+
+        .element-box {
+            border: 1px solid #666;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+            background: #f9f9f9;
+        }
+
+        .notes-section {
+            background: #fffacd;
+            border: 2px solid #daa520;
+            padding: 15px;
+            margin-top: 30px;
+        }
+
+        .notes-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎖️ Tutorial Interactivo - Prototipo LO-FI 🎖️</h1>
+        <div class="subtitle">Campo de Entrenamiento Interactivo | WW1 ARRAIGADO | Solución P1: Curva de Aprendizaje Hostil</div>
+
+        <!-- PANTALLA 1: BIENVENIDA -->
+        <div class="wireframe-section">
+            <div class="wireframe-title">PASO 1: Pantalla de Bienvenida</div>
+            
+            <div class="sketch-box">
+                <div class="sketch-label">SKETCH 1</div>
+                <div class="placeholder-text">[LOGO DEL JUEGO - TRINCHERAS WW1]</div>
+                <div class="element-box">
+                    <strong>BIENVENIDO AL CAMPO DE ENTRENAMIENTO</strong>
+                </div>
+                <div class="placeholder-text">[IMAGEN: Soldado saludando - Estilo 1914]</div>
+                <div class="element-box">
+                    "¡Recluta! Soy el Sargento Miller.<br>
+                    Te enseñaré las habilidades básicas para sobrevivir en el frente."
+                </div>
+                <div class="element-box" style="background: #ddd; margin-top: 20px;">
+                    [BOTÓN] COMENZAR ENTRENAMIENTO →
+                </div>
+            </div>
+
+            <div class="annotation">
+                ✏️ Anotaciones de diseño:<br>
+                - Fondo sepia con textura de papel viejo<br>
+                - Tipografía estilo máquina de escribir 1914<br>
+                - NPC persistente (Sargento Miller) como guía contextual
+            </div>
+        </div>
+
+        <div class="flow-arrow">↓ FLUJO ↓</div>
+
+        <!-- PANTALLA 2: ESTACIÓN DE MOVIMIENTO -->
+        <div class="wireframe-section">
+            <div class="wireframe-title">PASO 2: Estación de Movimiento Básico</div>
+            
+            <div class="grid-layout">
+                <div class="sketch-box">
+                    <div class="sketch-label">VISTA JUEGO</div>
+                    <div class="placeholder-text">[ÁREA 3D - CAMPO DE ENTRENAMIENTO]</div>
+                    <div style="margin-top: 30px;">
+                        <div class="element-box">🚶 Personaje (vista 3ra persona)</div>
+                        <div class="placeholder-text">[Obstáculos: sacos, trinchera de práctica]</div>
+                    </div>
+                </div>
+
+                <div class="sketch-box">
+                    <div class="sketch-label">PANEL INSTRUCCIONES</div>
+                    <div class="element-box" style="background: rgba(0,0,0,0.8); color: white;">
+                        <strong>LECCIÓN 1: MOVIMIENTO</strong>
+                    </div>
+                    <div class="annotation" style="border-color: #333;">
+                        🎯 Objetivo: Muévete hasta el punto marcado<br><br>
+                        [ÍCONO W] - Avanzar<br>
+                        [ÍCONO A] - Izquierda<br>
+                        [ÍCONO S] - Retroceder<br>
+                        [ÍCONO D] - Derecha<br>
+                        [ÍCONO SHIFT] - Correr
+                    </div>
+                    <div class="element-box" style="margin-top: 10px;">
+                        Progreso: [████░░░░] 50%
+                    </div>
+                </div>
+            </div>
+
+            <div class="annotation">
+                ✏️ Mecánicas de enseñanza:<br>
+                - Highlight visual sobre teclas a presionar<br>
+                - Punto objetivo parpadeante en el suelo<br>
+                - Feedback sonoro al completar acción<br>
+                - Imposible avanzar sin completar ejercicio
+            </div>
+        </div>
+
+        <div class="flow-arrow">↓ FLUJO ↓</div>
+
+        <!-- PANTALLA 3: ESTACIÓN DE COBERTURA -->
+        <div class="wireframe-section">
+            <div class="wireframe-title">PASO 3: Estación de Cobertura</div>
+            
+            <div class="sketch-box">
+                <div class="sketch-label">SKETCH 3</div>
+                <div class="grid-layout">
+                    <div>
+                        <div class="placeholder-text">[VISTA 3D: Sacos de arena + Trinchera]</div>
+                        <div class="element-box">
+                            💬 "Aquí aprendes a CUBRIRTE.<br>
+                            La cobertura reduce el daño un 80%."
+                        </div>
+                    </div>
+                    <div>
+                        <div class="element-box" style="background: rgba(0,0,0,0.8); color: white;">
+                            <strong>LECCIÓN 2: COBERTURA</strong>
+                        </div>
+                        <div class="annotation" style="border-color: #333;">
+                            1️⃣ Acércate al objeto de cobertura<br>
+                            2️⃣ Presiona [C] para agacharte<br>
+                            3️⃣ Observa el indicador de cobertura<br><br>
+                            <div class="element-box">
+                                🛡️ Cobertura: ACTIVA ✓
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">↓ FLUJO ↓</div>
+
+        <!-- PANTALLA 4: ESTACIÓN DE DISPARO -->
+        <div class="wireframe-section">
+            <div class="wireframe-title">PASO 4: Estación de Disparo</div>
+            
+            <div class="sketch-box">
+                <div class="sketch-label">SKETCH 4</div>
+                <div class="element-box" style="background: rgba(0,0,0,0.8); color: white;">
+                    <strong>LECCIÓN 3: DISPARO BÁSICO</strong>
+                </div>
+                <div class="grid-layout" style="margin-top: 20px;">
+                    <div class="placeholder-text">[VISTA: Objetivos de práctica (5 blancos)]</div>
+                    <div>
+                        <div class="annotation" style="border-color: #333;">
+                            🎯 Destruye 5/5 objetivos<br><br>
+                            [MOUSE] - Apuntar<br>
+                            [CLIC IZQ] - Disparar<br>
+                            [R] - Recargar<br><br>
+                            Munición: [████████] 8/8<br>
+                            Objetivos: [██░░░░░░] 2/5
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">↓ FLUJO ↓</div>
+
+        <!-- PANTALLA 5: ESTACIÓN DE CURACIÓN -->
+        <div class="wireframe-section">
+            <div class="wireframe-title">PASO 5: Estación de Curación</div>
+            
+            <div class="sketch-box">
+                <div class="sketch-label">SKETCH 5</div>
+                <div class="element-box" style="background: rgba(0,0,0,0.8); color: white;">
+                    <strong>LECCIÓN 4: SUPERVIVENCIA</strong>
+                </div>
+                <div class="placeholder-text">[VISTA: Estación médica con botiquines]</div>
+                <div class="annotation" style="border-color: #333;">
+                    💬 "Aprende a curarte en combate."<br><br>
+                    1️⃣ Recoge el botiquín [E]<br>
+                    2️⃣ Usa el botiquín [H]<br>
+                    3️⃣ Observa la barra de salud<br><br>
+                    <div class="element-box">
+                        ❤️ Salud: [████░░░░] 50/100<br>
+                        💊 Botiquines: 2
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flow-arrow">↓ FLUJO ↓</div>
+
+        <!-- PANTALLA 6: COMPLETADO -->
+        <div class="wireframe-section">
+            <div class="wireframe-title">PASO 6: Entrenamiento Completado</div>
+            
+            <div class="sketch-box">
+                <div class="sketch-label">SKETCH 6</div>
+                <div class="placeholder-text">[ANIMACIÓN: Medalla de entrenamiento]</div>
+                <div class="element-box" style="background: #4a7c4e; color: white;">
+                    <strong>¡ENTRENAMIENTO COMPLETADO!</strong>
+                </div>
+                <div class="element-box">
+                    💬 "¡Excelente trabajo, recluta!<br>
+                    Ahora estás listo para el frente."
+                </div>
+                <div class="annotation" style="border-color: #333; text-align: center;">
+                    <strong>HABILIDADES APRENDIDAS:</strong><br>
+                    ✓ Movimiento básico<br>
+                    ✓ Sistema de cobertura<br>
+                    ✓ Disparo y recarga<br>
+                    ✓ Curación<br><br>
+                    <div class="element-box" style="background: #333; color: white;">
+                        [BOTÓN] SALTAR TUTORIAL (X)
+                    </div>
+                    <div class="element-box" style="background: #4a7c4e; color: white;">
+                        [BOTÓN] IR AL COMBATE →
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTAS DE DISEÑO IHC -->
+        <div class="notes-section">
+            <div class="notes-title">📋 NOTAS DE DISEÑO IHC - ISO 9241-210</div>
+            
+            <strong>1. Contexto de uso (Fase 1):</strong>
+            <ul>
+                <li><strong>Usuario:</strong> Jugadores nuevos sin experiencia en shooters tácticos WW1</li>
+                <li><strong>Objetivo:</strong> Aprender mecánicas básicas en <5 minutos</li>
+                <li><strong>Entorno:</strong> Tutorial no saltable en primera sesión, saltable después</li>
+            </ul>
+
+            <strong>2. Requisitos de usuario (Fase 2):</strong>
+            <ul>
+                <li>Progresión paso a paso (no abrumadora)</li>
+                <li>Feedback visual + auditivo inmediato</li>
+                <li>Imposible fallar (entorno seguro de práctica)</li>
+                <li>NPC guía persistente (Sargento Miller)</li>
+            </ul>
+
+            <strong>3. Heurísticas de Nielsen aplicadas:</strong>
+            <ul>
+                <li><strong>H1 - Visibilidad del estado:</strong> Barra de progreso visible en cada lección</li>
+                <li><strong>H4 - Consistencia:</strong> Mismo formato de instrucciones en todas las estaciones</li>
+                <li><strong>H5 - Prevención de errores:</strong> Áreas bloqueadas hasta completar ejercicio actual</li>
+                <li><strong>H10 - Ayuda y documentación:</strong> Instrucciones contextuales en pantalla</li>
+            </ul>
+
+            <strong>4. KPIs a medir:</strong>
+            <ul>
+                <li>FTUE Completion Rate: >80% (objetivo)</li>
+                <li>Tiempo promedio de completado: 3-5 minutos</li>
+                <li>Tasa de salto tras primera partida: <30%</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

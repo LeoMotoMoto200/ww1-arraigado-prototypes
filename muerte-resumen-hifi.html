@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HI-FI: Resumen Táctico Post-Muerte - WW1 ARRAIGADO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-primary: #4a4a3a;
+            --color-accent: #8b7355;
+            --color-danger: #8b3a3a;
+            --color-success: #4a7c4e;
+            --color-warning: #d4a017;
+        }
+
+        body {
+            font-family: 'Special Elite', 'Courier New', monospace;
+            background: #000;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Transición inicial */
+        .death-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(139,58,58,0.8) 0%, rgba(0,0,0,0.95) 100%);
+            z-index: 1000;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .death-summary {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            gap: 20px;
+            padding: 30px;
+        }
+
+        /* Header */
+        .header {
+            grid-column: 1 / -1;
+            background: rgba(0,0,0,0.8);
+            border: 3px solid var(--color-danger);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            animation: slideDown 0.8s ease-out 0.5s both;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .death-title {
+            font-size: 36px;
+            color: var(--color-danger);
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(139,58,58,0.8);
+        }
+
+        .death-subtitle {
+            font-size: 16px;
+            color: #aaa;
+        }
+
+        /* Mapa táctico */
+        .tactical-map {
+            background: linear-gradient(135deg, #3a4b3a 0%, #2a3b2a 100%);
+            border: 3px solid var(--color-accent);
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInLeft 1s ease-out 1s both;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .map-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--color-accent);
+            text-align: center;
+            border-bottom: 2px solid var(--color-accent);
+            padding-bottom: 10px;
+        }
+
+        .map-canvas {
+            width: 100%;
+            height: calc(100% - 50px);
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(255,255,255,0.03) 30px, rgba(255,255,255,0.03) 31px),
+                repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(255,255,255,0.03) 30px, rgba(255,255,255,0.03) 31px);
+            position: relative;
+            border-radius: 5px;
+        }
+
+        .map-player {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #ff6b6b 0%, #cc5555 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 3px solid var(--color-danger);
+            box-shadow: 0 0 20px rgba(255,107,107,0.6);
+            animation: playerDeath 1.5s ease-out 1.5s both;
+        }
+
+        @keyframes playerDeath {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .map-enemy {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: radial-gradient(circle, #8b3a3a 0%, #6b2a2a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 3px solid #4a1a1a;
+            box-shadow: 0 0 15px rgba(139,58,58,0.6);
+        }
+
+        .trajectory-line {
+            position: absolute;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                gold 20%, 
+                gold 80%, 
+                transparent 100%);
+            transform-origin: left center;
+            box-shadow: 0 0 10px gold;
+            animation: trajectoryDraw 1.5s ease-out 2s both;
+        }
+
+        @keyframes trajectoryDraw {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+            to {
+                width: 100%;
+                opacity: 1;
+            }
+        }
+
+        .impact-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, gold 0%, transparent 70%);
+            border-radius: 50%;
+            animation: impactPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes impactPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 1;
+            }
+        }
+
+        .map-legend {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Panel de estadísticas */
+        .stats-panel {
+            background: rgba(0,0,0,0.8);
+            border: 3px solid var(--color-accent);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            animation: fadeInRight 1s ease-out 1.2s both;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .stats-title {
+            font-size: 18px;
+            color: var(--color-danger);
+            text-align: center;
+            border-bottom: 2px solid var(--color-danger);
+            padding-bottom: 10px;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            border-left: 4px solid var(--color-accent);
+            padding: 15px;
+            border-radius: 5px;
+            animation: statAppear 0.5s ease-out both;
+        }
+
+        @keyframes statAppear {
+            from {
+                transform: translateX(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .stat-item:nth-child(2) { animation-delay: 1.8s; }
+        .stat-item:nth-child(3) { animation-delay: 2s; }
+        .stat-item:nth-child(4) { animation-delay: 2.2s; }
+        .stat-item:nth-child(5) { animation-delay: 2.4s; }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .stat-detail {
+            font-size: 11px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Panel de análisis */
+        .analysis-panel {
+            grid-column: 1 / -1;
+            background: rgba(0,0,0,0.8);
+            border: 3px solid var(--color-warning);
+            border-radius: 10px;
+            padding: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            animation: fadeInUp 1s ease-out 2.5s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .performance-metrics {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-5px);
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .metric-good { border-color: var(--color-success); color: var(--color-success); }
+        .metric-warning { border-color: var(--color-warning); color: var(--color-warning); }
+        .metric-danger { border-color: var(--color-danger); color: var(--color-danger); }
+
+        .recommendation {
+            background: linear-gradient(135deg, rgba(74,124,78,0.2) 0%, rgba(58,108,62,0.2) 100%);
+            border: 2px solid var(--color-success);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .recommendation-title {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: var(--color-success);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recommendation-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        .sergeant-advice {
+            background: linear-gradient(135deg, rgba(212,160,23,0.2) 0%, rgba(139,115,85,0.2) 100%);
+            border: 2px solid var(--color-warning);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .sergeant-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-primary) 100%);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 3px solid var(--color-warning);
+        }
+
+        .sergeant-quote {
+            font-size: 14px;
+            font-style: italic;
+            line-height: 1.6;
+            color: #ddd;
+        }
+
+        /* Footer con acciones */
+        .footer {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            animation: fadeIn 1s ease-out 3s both;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, var(--color-success) 0%, #3a6c3e 100%);
+            border: 3px solid #2a5c2e;
+            color: white;
+            padding: 15px 35px;
+            font-size: 18px;
+            font-family: 'Special Elite', monospace;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+
+        .action-btn.secondary {
+            background: linear-gradient(135deg, #666 0%, #444 100%);
+            border-color: #333;
+        }
+
+        .auto-continue {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.9);
+            border: 2px solid var(--color-accent);
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #999;
+            animation: fadeIn 1s ease-out 3.5s both;
+        }
+
+        .countdown {
+            color: var(--color-warning);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="death-overlay">
+        <div class="death-summary">
+            <!-- Header -->
+            <div class="header">
+                <div class="death-title">💀 CAÍDO EN COMBATE 💀</div>
+                <div class="death-subtitle">Análisis Táctico de tu Fallecimiento</div>
+            </div>
+
+            <!-- Mapa táctico -->
+            <div class="tactical-map">
+                <div class="map-title">🗺️ VISTA TÁCTICA DEL COMBATE</div>
+                <div class="map-canvas" id="mapCanvas">
+                    <!-- Jugador -->
+                    <div class="map-player" style="left: 50%; top: 60%;">💀</div>
+                    
+                    <!-- Enemigo -->
+                    <div class="map-enemy" style="right: 25%; top: 25%;">🎯</div>
+                    
+                    <!-- Trayectoria -->
+                    <div class="trajectory-line" id="trajectory" 
+                         style="left: calc(75% - 35px); top: calc(25% + 18px); width: 250px; transform: rotate(45deg);"></div>
+                    
+                    <!-- Marcador de impacto -->
+                    <div class="impact-marker" style="left: calc(50% + 10px); top: calc(60% - 10px);"></div>
+                    
+                    <!-- Leyenda -->
+                    <div class="map-legend">
+                        <div>💀 Tu posición al morir</div>
+                        <div>🎯 Enemigo que te eliminó</div>
+                        <div style="color: gold;">━ Trayectoria del disparo</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de estadísticas -->
+            <div class="stats-panel">
+                <div class="stats-title">📊 DATOS DE MUERTE</div>
+                
+                <div class="stat-item">
+                    <div class="stat-label">DISTANCIA DEL DISPARO</div>
+                    <div class="stat-value">47m</div>
+                    <div class="stat-detail">Rango medio</div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-label">ARMA ENEMIGA</div>
+                    <div class="stat-value">🔫 Rifle</div>
+                    <div class="stat-detail">Gewehr 98</div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-label">ZONA DE IMPACTO</div>
+                    <div class="stat-value">🎯 Cabeza</div>
+                    <div class="stat-detail">Disparo letal</div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-label">SALUD PREVIA</div>
+                    <div class="stat-value">65/100</div>
+                    <div class="stat-detail">Muerte en 1 disparo</div>
+                </div>
+            </div>
+
+            <!-- Panel de análisis -->
+            <div class="analysis-panel">
+                <!-- Métricas de rendimiento -->
+                <div class="performance-metrics">
+                    <div class="metric-card metric-warning">
+                        <div class="metric-value">45%</div>
+                        <div class="metric-label">PRECISIÓN</div>
+                    </div>
+
+                    <div class="metric-card metric-good">
+                        <div class="metric-value">2</div>
+                        <div class="metric-label">BAJAS</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-value">3:42</div>
+                        <div class="metric-label">TIEMPO VIVO</div>
+                    </div>
+
+                    <div class="metric-card metric-danger">
+                        <div class="metric-value">12%</div>
+                        <div class="metric-label">COBERTURA</div>
+                    </div>
+
+                    <div class="metric-card metric-warning">
+                        <div class="metric-value">1/2</div>
+                        <div class="metric-label">BOTIQUINES</div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-value">234m</div>
+                        <div class="metric-label">RECORRIDO</div>
+                    </div>
+                </div>
+
+                <!-- Recomendación 1 -->
+                <div class="recommendation">
+                    <div class="recommendation-title">
+                        <span>⚠️</span>
+                        <span>PROBLEMA: Uso bajo de cobertura</span>
+                    </div>
+                    <div class="recommendation-text">
+                        Solo estuviste cubierto el <strong>12% del tiempo</strong> en combate.
+                        Esto te dejó vulnerable a disparos enemigos de largo alcance.<br><br>
+                        <strong>✓ Consejo:</strong> Usa la tecla <strong>[C]</strong> para agacharte detrás de sacos de arena.
+                        La cobertura reduce el daño recibido en un 80%.
+                    </div>
+                </div>
+
+                <!-- Recomendación 2 -->
+                <div class="recommendation">
+                    <div class="recommendation-title">
+                        <span>💡</span>
+                        <span>CONSEJO: Movimiento táctico</span>
+                    </div>
+                    <div class="recommendation-text">
+                        Te moviste en línea recta hacia el enemigo sin zigzaguear.<br><br>
+                        <strong>✓ Táctica recomendada:</strong> Alterna movimientos laterales mientras avanzas.
+                        Esto dificulta que el enemigo prediga tu posición.
+                    </div>
+                </div>
+
+                <!-- Consejo del Sargento -->
+                <div class="sergeant-advice">
+                    <div class="sergeant-avatar">🎖️</div>
+                    <div style="font-size: 14px; font-weight: bold; margin-bottom: 10px; color: var(--color-warning);">
+                        SARGENTO MILLER DICE:
+                    </div>
+                    <div class="sergeant-quote">
+                        "¡Recluta! Te expusiste demasiado en campo abierto.
+                        En las trincheras, la cobertura es tu mejor aliada.
+                        Usa el terreno a tu favor y mantén la cabeza baja."
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer con acciones -->
+            <div class="footer">
+                <button class="action-btn secondary" onclick="showStats()">📊 VER ESTADÍSTICAS</button>
+                <button class="action-btn" onclick="respawn()">🔄 REINTENTAR</button>
+            </div>
+        </div>
+
+        <!-- Auto-continue -->
+        <div class="auto-continue">
+            Auto-continuar en <span class="countdown" id="countdown">5</span>s | Presiona <strong>[ESPACIO]</strong> para continuar
+        </div>
+    </div>
+
+    <script>
+        // Contador de auto-continue
+        let countdown = 5;
+        const countdownElement = document.getElementById('countdown');
+        
+        const countdownInterval = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                respawn();
+            }
+        }, 1000);
+
+        // Continuar con ESPACIO
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                clearInterval(countdownInterval);
+                respawn();
+            }
+        });
+
+        function respawn() {
+            document.querySelector('.death-overlay').style.animation = 'fadeOut 0.5s ease-out';
+            setTimeout(() => {
+                alert('🔄 Respawneando... (En juego real, volverías al checkpoint)');
+            }, 500);
+        }
+
+        function showStats() {
+            alert('📊 Abriendo historial de estadísticas completo... (Función de demo)');
+        }
+
+        // Animación de trayectoria más elaborada
+        setTimeout(() => {
+            const trajectory = document.getElementById('trajectory');
+            trajectory.style.boxShadow = '0 0 20px gold, 0 0 40px gold';
+        }, 3500);
+    </script>
+</body>
+</html>
